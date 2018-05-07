@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "705043885254",
+    "firebase_url": "https://unpix-1221.firebaseio.com",
+    "project_id": "unpix-1221",
+    "storage_bucket": "unpix-1221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705043885254:android:d7672fb48a7910d2",
+        "android_client_info": {
+          "package_name": "fr.unpix.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705043885254-9b8fh86p69j67ivoe358efapcpi1fbfh.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "705043885254-eumu00uqjjb07sjr96lqcdbl5250s5nq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.unpix.com",
+            "certificate_hash": "b851fdd13aa445d60a141e7f6bbda9dbde5f71db"
+          }
+        },
+        {
+          "client_id": "705043885254-rivtsrtigrpkfveq157e3duviqnm49cv.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "705043885254-04132tcg8mr5k1f6c0m3elnlkqdthfom.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAkaEQ8U-QpFOmG3r6XbwUYpS3Ouz_Y1g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705043885254-9b8fh86p69j67ivoe358efapcpi1fbfh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
