@@ -80,17 +80,10 @@ public class PixView extends AppCompatActivity {
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.pixview);
                 layout.addView(iv);
                 xCoord += pieceWidth;
-                deltaX = deltaX+3;
+                deltaX = deltaX + 3;
             }
-            deltaY = deltaY+3;
+            deltaY = deltaY + 3;
             yCoord += pieceHeight;
-        }
-
-        for(Bitmap piece : pieces) {
-            ImageView iv = new ImageView(getApplicationContext());
-            iv.setImageBitmap(piece);
-            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.pixview);
-            layout.addView(iv);
         }
     }
 
