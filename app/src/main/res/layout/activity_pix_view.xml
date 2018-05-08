@@ -4,13 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/pixview"
     tools:context=".PixView">
 
     <com.jgabrielfreitas.core.BlurImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/imageView"
-        android:src="@drawable/lambo"/>
+        android:layout_width="247dp"
+        android:layout_height="177dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="68dp"
+        android:src="@drawable/lambo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,5 +27,21 @@
         android:onClick="blur"
         android:id="@+id/flouter"
         android:text="FLouter" />
+
+    <Button
+        android:id="@+id/découper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="460dp"
+        android:layout_marginEnd="200dp"
+        android:onClick="crop"
+        android:text="Decouper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
