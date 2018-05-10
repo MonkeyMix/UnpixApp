@@ -11,16 +11,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.facebook.login.widget.LoginButton;
 import com.jgabrielfreitas.core.BlurImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PixView extends AppCompatActivity {
     private ImageView photoImageView;
     private Button blurButton;
     private BlurImageView blurImage;
     private ArrayList<Bitmap> pieces;
+    private Map<Integer, BlurImageView> blurImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +30,19 @@ public class PixView extends AppCompatActivity {
         setContentView(R.layout.activity_pix_view);
         blurButton = findViewById(R.id.flouter);
         blurImage = (BlurImageView) findViewById(R.id.imageView);
+        blurImages = new HashMap<>();
     }
 
     public void blur(View view) {
         blurImage.setBlur(7);
     }
 
+    public void unBlur(View view) {blurImage.setBlur(0);}
+
     public void crop(View view) {
-        int piecesNumber = 12;
-        int rows = 4;
-        int cols = 3;
+        int piecesNumber = 81;
+        int rows = 9;
+        int cols = 9;
 
         ImageView imageView = findViewById(R.id.imageView);
         ArrayList<Bitmap> pieces = new ArrayList<>(piecesNumber);
@@ -73,20 +78,31 @@ public class PixView extends AppCompatActivity {
             int deltaX = 0;
             int xCoord = 0;
             for (int col = 0; col < cols; col++) {
-                ImageView iv = new ImageView(getApplicationContext());
+                BlurImageView iv = new BlurImageView(getApplicationContext());
                 iv.setX(xCoord + constantex + deltaX);
                 iv.setY(yCoord + constantey + deltaY);
                 iv.setImageBitmap(Bitmap.createBitmap(scaledBitmap, xCoord, yCoord, pieceWidth, pieceHeight));
+                iv.setMinimumWidth(70);
+                iv.setMinimumHeight(51);
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.pixview);
                 layout.addView(iv);
+                iv.setOnClickListener(unBlurClickListener);
                 xCoord += pieceWidth;
                 deltaX = deltaX + 3;
             }
             deltaY = deltaY + 3;
             yCoord += pieceHeight;
         }
-    }
 
+    }
+    private View.OnClickListener unBlurClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            BlurImageView imageView = (BlurImageView)v;
+            imageView.setBlur(0);
+            imageView.setMinimumWidth(70);
+            imageView.setMinimumHeight(51);
+        }
+    };
     private int[] getBitmapPositionInsideImageView(ImageView imageView) {
         int[] ret = new int[4];
 

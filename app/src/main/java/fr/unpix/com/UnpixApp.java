@@ -3,6 +3,7 @@ package fr.unpix.com;
 import android.app.Application;
 
 import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsLogger;
 
 public class UnpixApp extends Application {
@@ -11,6 +12,7 @@ public class UnpixApp extends Application {
     public void onCreate() {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.REQUESTS);
         AppEventsLogger.activateApp(this);
     }
 }
