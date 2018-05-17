@@ -289,31 +289,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         startActivity(intent);
     }
 
-    public void uploadPictures(byte[] pictureByteArray, String tag) throws IOException, URISyntaxException {
+    public void uploadPictures(final byte[] pictureByteArray, final String tag) throws IOException, URISyntaxException {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-        StorageReference imagesRef = storageRef.child("images/"+user.getUid()+"/image_"+tag);
-        fOut = openFileOutput(filename+tag,Context.MODE_PRIVATE);
-        fOut.write(pictureByteArray);
-        fOut.close();
+        StorageReference imagesRef = storageRef.child("images/"+user.getUid()+"/"+filename+tag);
         imagesRef.putBytes(pictureByteArray)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //if the upload is successful
-                        //hiding the progress dialog
-                        //and displaying a success toast
-                        String profilePicUrl = taskSnapshot.getDownloadUrl().toString();
-                        System.out.println(profilePicUrl);
+                        try {
+                            fOut = openFileOutput(filename+tag,Context.MODE_PRIVATE);
+                            fOut.write(pictureByteArray);
+                            fOut.close();
+                        } catch (IOException e ) {
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        //if the upload is not successful
-                        //hiding the progress dialog
-                        //dismissDialog();
-                        //and displaying error message
                         //Toast.makeText( exception.getCause().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         System.out.println("erreur"+ exception);
                     }
