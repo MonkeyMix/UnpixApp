@@ -5,6 +5,7 @@ import android.app.Application;
 import com.facebook.FacebookSdk;
 import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class UnpixApp extends Application {
 
@@ -14,5 +15,6 @@ public class UnpixApp extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         FacebookSdk.addLoggingBehavior(LoggingBehavior.REQUESTS);
         AppEventsLogger.activateApp(this);
+
     }
 }

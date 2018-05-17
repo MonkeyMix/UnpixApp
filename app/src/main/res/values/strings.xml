@@ -17,4 +17,5 @@
     <string name="error_login">Ocurrió un error al ingresar</string>
     <string name="firebase_error_logins">Firebase Error Login</string>
     <string name="test">test</string>
+    <string name="name">Name</string>
 </resources>
