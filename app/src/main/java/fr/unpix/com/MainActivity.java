@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +42,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -68,8 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     FirebaseUser user;
     private Map<Integer,ImageView> userImageViewList;
     private Map<Integer,Integer> userImageViewCodeList;
-
+    private File directory;
     private ImageView selectedImageView;
+    private FileOutputStream fOut;
+    private final static String filename = "image_";
+    FileInputStream fin;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -119,9 +127,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     storageRef = storage.getReference();
                     int i=0;
                     for ( i = 0 ; i<=5; i++){
-                        StorageReference storageReference = storageRef.child("images/"+user.getUid()+"/image_"+i);
-                        if (storageReference != null) {
-                            putPictureInImageView(storageReference,i);
+                        Bitmap b = null;
+                        try {
+                            FileInputStream fin = openFileInput(filename+i);
+                            b = BitmapFactory.decodeStream(fin);
+                            StorageReference storageReference = storageRef.child("images/"+user.getUid()+"/image_"+i);
+                            putPictureInImageView(storageReference,i,b);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         }
                     }
                     //Glide.with(this).load(fbPhotos.get(0).getPhotoUrl()).asBitmap().centerCrop().into(cardview);
@@ -156,19 +169,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
-    private void putPictureInImageView(StorageReference storageReference,final int i) {
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                ImageView imgView = userImageViewList.get(i);
-                Glide.with(MainActivity.this).load(uri.toString()).asBitmap().centerCrop().into(imgView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // failed
-            }
-        });
+    private void putPictureInImageView(StorageReference storageReference,final int i, Bitmap btmp) {
+        final ImageView imgView = userImageViewList.get(i);
+        if (btmp != null){
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            btmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            Glide.with(MainActivity.this).load(stream.toByteArray()).asBitmap().centerCrop().into(imgView);
+        }
+        else{
+            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(MainActivity.this).load(uri.toString()).asBitmap().centerCrop().into(imgView);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // failed
+                }
+            });
+        }
     }
 
     private void getAlbums() throws InterruptedException {
@@ -269,11 +289,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         startActivity(intent);
     }
 
-    public void uploadPictures(byte[] pictureByteArray, String tag) throws MalformedURLException, URISyntaxException {
+    public void uploadPictures(byte[] pictureByteArray, String tag) throws IOException, URISyntaxException {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         StorageReference imagesRef = storageRef.child("images/"+user.getUid()+"/image_"+tag);
-
+        fOut = openFileOutput(filename+tag,Context.MODE_PRIVATE);
+        fOut.write(pictureByteArray);
+        fOut.close();
         imagesRef.putBytes(pictureByteArray)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
