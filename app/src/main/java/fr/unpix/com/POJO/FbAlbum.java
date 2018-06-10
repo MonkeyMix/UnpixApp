@@ -1,18 +1,24 @@
 package fr.unpix.com.POJO;
 
+import android.graphics.Bitmap;
+
 public class FbAlbum {
     private String idAlbum;
     private String albumName;
     private String albumUrl;
+    Bitmap albumPreview = null;
 
     public FbAlbum(){
 
     }
-    public FbAlbum(String idAlbum, String albumName, String albumUrl) {
+
+    public FbAlbum(String idAlbum, String albumName, String albumUrl, Bitmap icon11) {
         this.idAlbum = idAlbum;
         this.albumName = albumName;
         this.albumUrl = albumUrl;
+        albumPreview = icon11;
     }
+
     public String getIdAlbum() {
         return idAlbum;
     }
@@ -35,5 +41,13 @@ public class FbAlbum {
 
     public void setAlbumUrl(String albumUrl) {
         this.albumUrl = albumUrl;
+    }
+
+    public Bitmap getAlbumPreview() {
+        return albumPreview;
+    }
+
+    public void setAlbumPreview(Bitmap albumPreview) {
+        this.albumPreview = albumPreview;
     }
 }

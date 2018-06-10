@@ -18,4 +18,7 @@
     <string name="firebase_error_logins">Firebase Error Login</string>
     <string name="test">test</string>
     <string name="name">Name</string>
+    <string name="title_activity_chat_list">ChatListActivity</string>
+    <string name="navigation_drawer_open">Navigation drawer open</string>
+    <string name="navigation_drawer_close">Navigation drawer close</string>
 </resources>

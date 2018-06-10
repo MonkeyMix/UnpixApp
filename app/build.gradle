@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -41,6 +42,7 @@ dependencies {
     api 'com.android.support:design:27.1.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 
@@ -50,3 +52,6 @@ configurations.all {
     }
 }
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}

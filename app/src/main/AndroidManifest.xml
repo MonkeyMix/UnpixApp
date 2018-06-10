@@ -32,7 +32,9 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".PixView" />
-        <activity android:name=".AlbumPickerActivity"></activity>
+        <activity android:name=".AlbumPickerActivity" />
+        <activity android:name=".ChatListActivity" />
+        <activity android:name=".MyProfileActivity"></activity>
     </application>
 
 </manifest>

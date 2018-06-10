@@ -63,6 +63,61 @@ public class PixView extends AppCompatActivity {
         int scaledBitmapHeight = dimensions[3];
 
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledBitmapWidth, scaledBitmapHeight, true);
+        Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, Math.abs(scaledBitmapLeft), Math.abs(scaledBitmapTop), scaledBitmapWidth, scaledBitmapHeight);
+
+        // Calculate the with and height of the pieces
+        pieceWidth = scaledBitmapWidth/cols;
+        pieceHeight = scaledBitmapHeight/rows;
+
+        // Create each bitmap piece and add it to the resulting array
+        int yCoord = 0;
+        int x =0;
+        int y=0;
+        int deltaY = 0;
+        int constantex = 10;
+        int constantey = scaledBitmapHeight;
+        for (int row = 0; row < rows; row++) {
+            int deltaX = 0;
+            int xCoord = 0;
+            for (int col = 0; col < cols; col++) {
+                //imageView.setX(xCoord + constantex + deltaX);
+                //imageView.setY(yCoord + constantey + deltaY);
+                Bitmap piece = Bitmap.createBitmap(croppedBitmap, xCoord, yCoord, pieceWidth, pieceHeight);
+                imageView.setImageBitmap(piece);
+                Blurry.with(context).radius(20).from(piece).into(imageView);
+                // RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeView1);
+               // relativeLayout.addView(imageView);
+                pieces.add(((BitmapDrawable)imageView.getDrawable()).getBitmap());
+                xCoord += pieceWidth;
+                /*deltaX = deltaX + 3;
+                pieces.add(imageView);*/
+            }
+            deltaY = deltaY + 3;
+            yCoord += pieceHeight;
+        }
+    return pieces;
+    }
+
+    public ArrayList<Bitmap> cropBitmap(Bitmap bitmap, Context context) {
+        int piecesNumber = 81;
+        int rows = 9;
+        int cols = 9;
+        int pieceWidth;
+        int pieceHeight;
+
+        ArrayList<Bitmap> pieces = new ArrayList<>(piecesNumber);
+        ArrayList<ImageView> images = new ArrayList<>(81);
+        ImageView imageView = new ImageView(this);
+        imageView.setImageBitmap(bitmap);
+        //Scaled Bitmap
+        BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+        int[] dimensions = getBitmapPositionInsideImageView(imageView);
+        int scaledBitmapLeft = dimensions[0];
+        int scaledBitmapTop = dimensions[1];
+        int scaledBitmapWidth = dimensions[2];
+        int scaledBitmapHeight = dimensions[3];
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledBitmapWidth, scaledBitmapHeight, true);
         //Bitmap croppedBitmap = Bitmap.createBitmap(scaledBitmap, Math.abs(scaledBitmapLeft), Math.abs(scaledBitmapTop), scaledBitmapWidth, scaledBitmapHeight);
 
         // Calculate the with and height of the pieces
@@ -86,7 +141,7 @@ public class PixView extends AppCompatActivity {
                 imageView.setImageBitmap(piece);
                 Blurry.with(context).radius(20).from(piece).into(imageView);
                 // RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relativeView1);
-               // relativeLayout.addView(imageView);
+                // relativeLayout.addView(imageView);
                 pieces.add(((BitmapDrawable)imageView.getDrawable()).getBitmap());
                 xCoord += pieceWidth;
                 /*deltaX = deltaX + 3;
@@ -95,8 +150,9 @@ public class PixView extends AppCompatActivity {
             deltaY = deltaY + 3;
             yCoord += pieceHeight;
         }
-    return pieces;
+        return pieces;
     }
+
     private View.OnClickListener unBlurClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             BlurImageView imageView = (BlurImageView)v;
